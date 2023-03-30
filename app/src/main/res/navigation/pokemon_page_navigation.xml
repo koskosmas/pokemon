@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.kosmas.pokedex.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_pokemonTypeFragment"
+            app:destination="@id/pokemonTypeFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_detailDialogFragment"
+            app:destination="@id/detailDialogFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/detailDialogFragment"
+        android:name="com.kosmas.pokedex.ui.detail.PokemonDetailDialogFragment"
+        android:label="DetailDialogFragment"
+        tools:layout="@layout/fragment_pokemon_detail_dialog">
+
+        <argument
+            android:name="pokemonName"
+            app:argType="string" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.kosmas.pokedex.ui.detail.PokemonDetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_pokemon_detail">
+
+        <argument android:name="pokemonName" />
+
+        <action
+            android:id="@+id/action_detailFragment_to_pokemonTypeFragment"
+            app:destination="@id/pokemonTypeFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/pokemonTypeFragment"
+        android:name="com.kosmas.pokedex.ui.pokemontype.PokemonTypeFragment"
+        android:label="@string/menu_pokemon_type"
+        tools:layout="@layout/fragment_pokemon_type">
+
+        <argument android:name="pokemonType" />
+
+        <action
+            android:id="@+id/action_pokemonTypeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+
+</navigation>

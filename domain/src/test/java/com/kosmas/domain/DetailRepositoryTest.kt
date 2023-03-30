@@ -50,7 +50,7 @@ class DetailRepositoryTest {
     }
 
     @Test
-    fun mainViewModel_Success_fetchPokemonTypes() = runBlocking {
+    fun mainViewModel_Success_fetchPokemonDetail() = runBlocking {
         val pokemons = PokemonResponse(
             10, null, null, mutableListOf(
                 PokemonItemData(

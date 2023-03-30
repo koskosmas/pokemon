@@ -49,7 +49,7 @@ class PokemonViewModelTest {
     }
 
     @Test
-    fun mainViewModel_Success_fetchPokemonTypes() = runBlocking {
+    fun mainViewModel_Success_fetchPokemonDetail() = runBlocking {
         val pokemons: List<PokemonItemData> =
             listOf(
                 PokemonItemData(

@@ -22,7 +22,7 @@ class PokemonViewModel @Inject constructor(
     var errorMessage = MutableLiveData<String>(null)
     val pokemonItemDataList = MutableLiveData<List<PokemonItemData>>(emptyList())
 
-    private val pokemonFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
+    val pokemonFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
 
     fun fetchPokemons() {
         viewModelScope.launch {
@@ -43,6 +43,18 @@ class PokemonViewModel @Inject constructor(
                     }
                 }
                 pokemonItemDataList.postValue(pokemons)
+            }
+        }
+    }
+    fun fetchPokemonsForTesting() {
+        viewModelScope.launch {
+            repository.fetchPokemonList(
+                page = 0,
+                onStart = { isLoading.postValue(true) },
+                onComplete = { isLoading.postValue(false) },
+                onError = { errorMessage.postValue(it) }
+            ).collect {
+                pokemonItemDataList.postValue(it)
             }
         }
     }

@@ -20,7 +20,7 @@ class PokemonTypeViewModel @Inject constructor(
     val pokemon = MutableLiveData<BaseResource<List<PokemonData>>>()
     var pokemonType: String = ""
 
-    fun getPokemonType(pokemonTypeTemp: String) {
+    fun fetchPokemonType(pokemonTypeTemp: String) {
         pokemonType = pokemonTypeTemp
         viewModelScope.launch {
             repository.fetchPokemonByType(

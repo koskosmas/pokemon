@@ -59,7 +59,7 @@ class PokemonTypeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObserver()
-        viewModel.getPokemonType(pokemonType.toString())
+        viewModel.fetchPokemonType(pokemonType.toString())
     }
 
     private fun initObserver() {

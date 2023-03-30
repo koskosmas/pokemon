@@ -6,10 +6,7 @@ import com.kosmas.data.model.response.PokemonResponse
 import com.kosmas.data.network.service.PokemonService
 import com.kosmas.domain.repository.DetailRepository
 import com.kosmas.domain.repository.DetailRepositoryImpl
-import com.kosmas.domain.repository.HomeRepository
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.*

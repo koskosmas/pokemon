@@ -70,17 +70,17 @@ class MainActivity : AppCompatActivity() {
             val navController = findNavController(R.id.nav_host_fragment_content_main)
             navView.setupWithNavController(navController)
 
-            rvMenu.adapter = MenuAdapter(itemOnClick = { titleMenuDrawer, position ->
+            rvMenu.adapter = MenuAdapter(itemOnClick = { titleMenuDrawer, _ ->
                 viewModel.resetMenuState(titleMenuDrawer)
                 rvMenu.adapter?.notifyDataSetChanged()
                 toggleShowDrawer(drawerLayout)
 
                 if (titleMenuDrawer == "Home") {
-                    navController.navigateUp()
+                    navigateToHome(navController)
                 } else {
                     navigateToPokemonType(navController, titleMenuDrawer)
                 }
-            }, itemSubMenuOnClick = { titleMenuDrawer, position ->
+            }, itemSubMenuOnClick = { titleMenuDrawer, _ ->
                 viewModel.resetSubMenuState(titleMenuDrawer)
                 rvMenu.adapter?.notifyDataSetChanged()
                 toggleShowDrawer(drawerLayout)
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToPokemonType(navController: NavController, titleMenuDrawer: String) {
-        navController.navigateUp()
+        navigateToHome(navController)
         val args = if (titleMenuDrawer != "Pokemon Type") {
             Bundle().also {
                 it.putString("pokemonType", titleMenuDrawer)
@@ -112,6 +112,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
         navController.navigate(R.id.action_homeFragment_to_pokemonTypeFragment, args)
+    }
+
+    private fun navigateToHome(navController: NavController){
+        when (navController.currentDestination?.id) {
+            R.id.detailFragment -> {
+                navController.navigate(R.id.action_detailFragment_to_homeFragment)
+            }
+            R.id.detailDialogFragment -> {
+                navController.navigate(R.id.action_detailDialogFragment_to_homeFragment)
+
+            }
+            R.id.pokemonTypeFragment -> {
+                navController.navigate(R.id.action_pokemonTypeFragment_to_homeFragment)
+            }
+        }
     }
 
     private fun toggleShowDrawer(drawerLayout: DrawerLayout) {

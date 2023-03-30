@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Pengaturan</string>
+
+    <string name="menu_home">Beranda</string>
+    <string name="menu_pokemon_type">Jenis Pokemon</string>
+
+    <string name="content_home_title">Semua data Pokemon yang Anda perlukan di satu tempat!</string>
+    <string name="content_home_subtitle">Ribuan data dikompilasi ke dalam satu tempat</string>
+    <string name="content_home_button_label">Periksa PokèDex</string>
+
+    <string name="pokedex_list_title">PokèDex</string>
+    <string name="load_more">Muat lebih banyak …</string>
+    <string name="weight_label">Berat :</string>
+    <string name="height_label">Tinggi :</string>
+    <string name="abilities_label">Kemampuan :</string>
+    <string name="abilities_value">• %s</string>
+    <string name="more_detail_label">Lebih detail</string>
+    <string name="type_label">Jenis :</string>
+    <string name="other_images_label">Gambar Lainnya :</string>
+    <string name="stats_label">Statistik :</string>
+    <string name="label_evolution">Evolusi :</string>
+    <string name="per_page">Per Halaman :</string>
+    <string name="total_data">Data Total :</string>
+</resources>

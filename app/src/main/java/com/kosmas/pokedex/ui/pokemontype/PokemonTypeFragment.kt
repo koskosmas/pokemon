@@ -69,13 +69,13 @@ class PokemonTypeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun initView(data: List<PokemonData>?) {
         data?.let {
             pokemons = it
             pageSeparations()
-            initPagination()
+            initPaginationAdapter()
             initPageSelection()
+            iniPokemonAdapter()
             binding?.apply {
                 progressBar.isVisible = false
                 pokemonType?.let {
@@ -84,19 +84,25 @@ class PokemonTypeFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     ivBgTypeTop.setBackgroundTintColor(it)
                     ivBgTypeBottom.setBackgroundTintColor(it)
                 }
-                pokemonAdapter = PokemonAdapter({ pokemonName ->
-                    navigateToPokemonDetail(Bundle().also {
-                        it.putString("pokemonName", pokemonName)
-                    })
-
-                }, { type ->
-                    ivBgTypeTop.setBackgroundTintColor(type)
-                    ivBgTypeBottom.setBackgroundTintColor(type)
-                })
-                rvPokemon.adapter = pokemonAdapter
-                pokemonAdapter?.submitList(pokemonPagesPagination[pagePaginationIndexSelected - 1].pages[0].pokemons)
-                pokemonAdapter?.notifyDataSetChanged()
             }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun iniPokemonAdapter() {
+        binding?.apply {
+            pokemonAdapter = PokemonAdapter({ pokemonName ->
+                navigateToPokemonDetail(Bundle().also { bundle ->
+                    bundle.putString("pokemonName", pokemonName)
+                })
+
+            }, { type ->
+                ivBgTypeTop.setBackgroundTintColor(type)
+                ivBgTypeBottom.setBackgroundTintColor(type)
+            })
+            rvPokemon.adapter = pokemonAdapter
+            pokemonAdapter?.submitList(pokemonPagesPagination[pagePaginationIndexSelected - 1].pages[0].pokemons)
+            pokemonAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -160,7 +166,7 @@ class PokemonTypeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun initPagination() {
+    private fun initPaginationAdapter() {
         binding?.rvPagination?.apply {
             val layoutManagerTemp = FlexboxLayoutManager(context)
             layoutManagerTemp.flexDirection = FlexDirection.ROW
@@ -180,7 +186,6 @@ class PokemonTypeFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
             adapter = paginationAdapter
             generatePagination()
-            pageIndexSelected = startPage
         }
     }
 
@@ -349,7 +354,7 @@ class PokemonTypeFragment : Fragment(), AdapterView.OnItemSelectedListener {
             pageSeparations()
             pokemonAdapter?.submitList(pokemonPagesPagination[pagePaginationIndexSelected - 1].pages[0].pokemons)
             pokemonAdapter?.notifyDataSetChanged()
-            initPagination()
+            initPaginationAdapter()
         } catch (ex: Exception) {
         }
     }

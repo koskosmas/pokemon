@@ -22,7 +22,6 @@ class MainViewModel @Inject constructor(
             MenuModel("Home", true), MenuModel("Pokemon Type", false)
         )
     )
-
     fun fetchPokemonTypes(){
         viewModelScope.launch {
             pokemonTypeRepository.fetchPokemonType(onComplete = { isLoading.postValue(false) },

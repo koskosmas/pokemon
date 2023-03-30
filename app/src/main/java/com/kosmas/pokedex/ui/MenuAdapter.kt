@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.kosmas.pokedex.R
 import com.kosmas.pokedex.model.MenuModel
 import com.kosmas.pokedex.databinding.ItemMenuDrawerBinding
 
@@ -34,35 +33,44 @@ class MenuAdapter(
                 root.setOnClickListener {
                     itemOnClick.invoke(menu.title, adapterPosition)
                 }
-                tvMenuDrawer.text = menu.title
-                if (menu.isActive) {
-                    tvMenuDrawer.setTextColor(
-                        AppCompatResources.getColorStateList(
-                            tvMenuDrawer.context, com.kosmas.core_ui.R.color.yellow
-                        )
-                    )
-                    tvMenuDrawer.typeface =
-                        ResourcesCompat.getFont(root.context, com.kosmas.core_ui.R.font.poppins_bold)
+                tvMenuDrawer.apply {
+                    text = menu.title
+                    when (menu.isActive) {
+                        true -> {
+                            setTextColor(
+                                AppCompatResources.getColorStateList(
+                                    context, com.kosmas.core_ui.R.color.yellow
+                                )
+                            )
+                            typeface = ResourcesCompat.getFont(
+                                root.context,
+                                com.kosmas.core_ui.R.font.poppins_bold
+                            )
+                        }
+                        else -> {
+                            setTextColor(
+                                AppCompatResources.getColorStateList(
+                                    context, com.kosmas.core_ui.R.color.darkgrey
+                                )
+                            )
+                            typeface = ResourcesCompat.getFont(
+                                root.context,
+                                com.kosmas.core_ui.R.font.poppins_regular
+                            )
+                        }
 
-                } else {
-                    tvMenuDrawer.setTextColor(
-                        AppCompatResources.getColorStateList(
-                            tvMenuDrawer.context, com.kosmas.core_ui.R.color.darkgrey
-                        )
-                    )
-                    tvMenuDrawer.typeface =
-                        ResourcesCompat.getFont(root.context, com.kosmas.core_ui.R.font.poppins_regular)
-                }
-
-                if (menu.title == "Pokemon Type" && menu.isActive) {
-                    rvSubMenu.isVisible = true
-                    rvSubMenu.adapter = SubMenuAdapter { typeName, index ->
-                        itemSubMenuOnClick.invoke(typeName, index)
-                    }.apply {
-                        submitList(menu.subMenu)
                     }
-                } else {
-                    rvSubMenu.isVisible = false
+
+                    if (menu.title == "Pokemon Type" && menu.isActive) {
+                        rvSubMenu.isVisible = true
+                        rvSubMenu.adapter = SubMenuAdapter { typeName, index ->
+                            itemSubMenuOnClick.invoke(typeName, index)
+                        }.apply {
+                            submitList(menu.subMenu)
+                        }
+                    } else {
+                        rvSubMenu.isVisible = false
+                    }
                 }
             }
         }

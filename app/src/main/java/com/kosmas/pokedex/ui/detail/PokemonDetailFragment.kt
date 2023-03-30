@@ -19,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class PokemonDetailFragment : Fragment() {
 
     private var binding: FragmentPokemonDetailBinding? = null
-
     private val viewModel: DetailViewModel by viewModels()
 
     override fun onCreateView(

@@ -29,7 +29,8 @@ class EvolutionAdapter(val onItemClick: (String) -> Unit) :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindEvolution(evolution: EvolutionDomainModel, position: Int) {
             binding.apply {
-                if (position > 0) setBackground(llEvolutionContainer, position, ivArrow)
+                if (position > 0) setBackground(llEvolutionContainer, position)
+                if (position == itemCount-1) ivArrow.isVisible = false
                 Glide.with(root.context).load(evolution.url).into(ivEvolution)
                 tvName.text = evolution.name
                 root.setOnClickListener { onItemClick(evolution.name) }
@@ -37,14 +38,11 @@ class EvolutionAdapter(val onItemClick: (String) -> Unit) :
         }
     }
 
-    private fun setBackground(view: View, position: Int, arrowImage: AppCompatImageView) {
+    private fun setBackground(view: View, position: Int) {
         when (position) {
             1 -> view.setBackgroundResource(R.drawable.shape_evolution_2)
             2 -> view.setBackgroundResource(R.drawable.shape_evolution_3)
-            else -> {
-                arrowImage.isVisible = false
-                view.setBackgroundResource(R.drawable.shape_evolution_4)
-            }
+            else -> view.setBackgroundResource(R.drawable.shape_evolution_4)
         }
     }
 

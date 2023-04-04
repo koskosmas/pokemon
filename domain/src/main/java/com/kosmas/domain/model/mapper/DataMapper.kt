@@ -10,7 +10,9 @@ object DataMapper {
 
     fun PokemonEvolutionResponse.mapToDomainModel(): PokemonEvolutionDomainModel {
         return try {
-            PokemonEvolutionDomainModel(mutableListOf<PokemonEvolutionDomainModel.Species>().apply {
+            PokemonEvolutionDomainModel(
+                this.id,
+                mutableListOf<PokemonEvolutionDomainModel.Species>().apply {
                 this.add(
                     PokemonEvolutionDomainModel.Species(
                         chain.species.name, getImageUrl(chain.species.url)
@@ -30,7 +32,7 @@ object DataMapper {
                 )
             })
         } catch (ex: java.lang.Exception) {
-            PokemonEvolutionDomainModel(emptyList())
+            PokemonEvolutionDomainModel(0, emptyList())
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.kosmas.data.model.data.PokemonItemData
+import com.kosmas.domain.model.PokemonDetailDomainModel
 import com.kosmas.domain.repository.DetailRepository
 import com.kosmas.domain.repository.HomeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +22,7 @@ class PokemonViewModel @Inject constructor(
     var isLoading = MutableLiveData(false)
     var errorMessage = MutableLiveData<String>(null)
     val pokemonItemDataList = MutableLiveData<List<PokemonItemData>>(emptyList())
+    val pokemonDetail = MutableLiveData<PokemonDetailDomainModel>()
 
     val pokemonFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
 
@@ -46,6 +48,7 @@ class PokemonViewModel @Inject constructor(
             }
         }
     }
+
     fun fetchPokemonsForTesting() {
         viewModelScope.launch {
             repository.fetchPokemonList(
@@ -55,6 +58,18 @@ class PokemonViewModel @Inject constructor(
                 onError = { errorMessage.postValue(it) }
             ).collect {
                 pokemonItemDataList.postValue(it)
+            }
+        }
+    }
+
+    fun fetchPokemonDetailForTesting(name: String) {
+        viewModelScope.launch {
+            detailRepository.fetchPokemonDetail(
+                name,
+                onComplete = { isLoading.postValue(false) },
+                onError = { errorMessage.postValue(it) }
+            ).collect {
+                pokemonDetail.postValue(it)
             }
         }
     }

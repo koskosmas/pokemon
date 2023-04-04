@@ -1,8 +1,5 @@
 package com.kosmas.domain
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.kosmas.data.model.data.PokemonItemData
-import com.kosmas.data.model.response.PokemonResponse
 import com.kosmas.data.network.service.PokemonService
 import com.kosmas.domain.repository.DetailRepository
 import com.kosmas.domain.repository.DetailRepositoryImpl
@@ -10,20 +7,14 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.*
-import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
-import retrofit2.Response
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class DetailRepositoryTest {
-
-    @get:Rule
-    val rule: TestRule = InstantTaskExecutorRule()
 
     @Mock
     lateinit var pokemonService: PokemonService
@@ -48,22 +39,43 @@ class DetailRepositoryTest {
 
     @Test
     fun mainViewModel_Success_fetchPokemonDetail() = runBlocking {
-        val pokemons = PokemonResponse(
-            10, null, null, mutableListOf(
-                PokemonItemData(
-                    name = "blaze", url = "https://pokeapi.co/api/v2/ability/66/"
-                )
-            )
-        )
-
-        Mockito.`when`(
-            pokemonService.fetchPokemonList(10, 0)
-        ).thenReturn(Response.success(pokemons))
-
-
+        val pokemonName = "blaze"
         val job = launch {
-            detailRepository.fetchPokemonDetail("blaze", {}, {}).collect {
+            detailRepository.fetchPokemonDetail(pokemonName, {}, {}).collect {
                 Assert.assertNotNull(it)
+            }
+        }
+        job.cancel()
+    }
+
+    @Test
+    fun mainViewModel_Success_Return_Equal_PokemonName_fetchPokemonDetail() = runBlocking {
+        val pokemonName = "blaze"
+        val job = launch {
+            detailRepository.fetchPokemonDetail(pokemonName, {}, {}).collect {
+                Assert.assertEquals(pokemonName, it.name)
+            }
+        }
+        job.cancel()
+    }
+
+    @Test
+    fun mainViewModel_Success_fetchPokemonEvolution() = runBlocking {
+        val pokemonId = 1
+        val job = launch {
+            detailRepository.fetchPokemonEvolution(pokemonId, {}, {}).collect {
+                Assert.assertNotNull(it)
+            }
+        }
+        job.cancel()
+    }
+
+    @Test
+    fun mainViewModel_Success_Return_Equal_PokemonID_fetchPokemonEvolution() = runBlocking {
+        val pokemonId = 1
+        val job = launch {
+            detailRepository.fetchPokemonEvolution(pokemonId, {}, {}).collect {
+                Assert.assertEquals(pokemonId, it.id)
             }
         }
         job.cancel()
